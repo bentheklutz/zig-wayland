@@ -1,9 +1,7 @@
 # zig-wayland
 
-\*********************************************************************************
-\* This repository is a fork of https://codeberg.org/ifreund/zig-wayland focused *
-\* on maintaining compatibility with zig's unstable releases.                    *
-\*********************************************************************************
+This repository is a fork of https://codeberg.org/ifreund/zig-wayland focused
+on maintaining compatibility with zig's unstable releases.
 
 Zig unstable bindings and protocol scanner for libwayland.
 
