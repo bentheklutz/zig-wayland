@@ -1,12 +1,11 @@
 # zig-wayland
 
-Zig 0.13 bindings and protocol scanner for libwayland.
+\*********************************************************************************
+\* This repository is a fork of https://codeberg.org/ifreund/zig-wayland focused *
+\* on maintaining compatibility with zig's unstable releases.                    *
+\*********************************************************************************
 
-The main repository is on [codeberg](https://codeberg.org/ifreund/zig-wayland),
-which is where the issue tracker may be found and where contributions are accepted.
-
-Read-only mirrors exist on [sourcehut](https://git.sr.ht/~ifreund/zig-wayland)
-and [github](https://github.com/ifreund/zig-wayland).
+Zig unstable bindings and protocol scanner for libwayland.
 
 ## Usage
 
