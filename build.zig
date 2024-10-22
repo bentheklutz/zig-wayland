@@ -93,6 +93,7 @@ pub const Scanner = struct {
         };
 
         const zig_wayland_dir = fs.path.dirname(@src().file) orelse ".";
+        @compileLog(@src().file);
         const exe = b.addExecutable(.{
             .name = "zig-wayland-scanner",
             .root_source_file = .{ .cwd_relative = b.pathJoin(&.{ zig_wayland_dir, "src/scanner.zig" }) },
