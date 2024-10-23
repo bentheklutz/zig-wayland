@@ -7,7 +7,7 @@ pub fn build(b: *Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const scanner = Scanner.create(b, .{});
+    const scanner = Scanner.create(b, .{ .zig_wayland_path = "." });
 
     const wayland = b.createModule(.{ .root_source_file = scanner.result });
 
@@ -80,6 +80,12 @@ pub const Scanner = struct {
         /// Path to the wayland-protocols installation.
         /// If null, the output of `pkg-config --variable=pkgdatadir wayland-protocols` will be used.
         wayland_protocols_path: ?[]const u8 = null,
+
+        /// Path to this library for building zig-wayland-scanner (if vendoring within your own project)
+        /// If null, zig-wayland-scanner is built from the package cache
+        /// Note that this was "free" using @src in zig 0.13.0, but 0.14.0 makes @src paths relative to
+        /// the build, which for Scanner.create(...) is actually the parent build.
+        zig_wayland_path: ?[]const u8 = null,
     };
 
     pub fn create(b: *Build, options: Options) *Scanner {
@@ -92,10 +98,24 @@ pub const Scanner = struct {
             break :blk mem.trim(u8, pc_output, &std.ascii.whitespace);
         };
 
-        const zig_wayland_dir = fs.path.dirname(@src().file) orelse ".";
+        const zig_wayland_path = options.zig_wayland_path orelse blk: {
+            const cache_root = b.graph.global_cache_root;
+            const fd_path = std.fmt.allocPrint(b.allocator, "/proc/self/fd/{d}", .{cache_root.handle.fd}) catch @panic("OOM");
+            var path_buf: [fs.max_path_bytes]u8 = std.mem.zeroes([fs.max_path_bytes]u8);
+            const cache_root_path = fs.readLinkAbsolute(fd_path, &path_buf) catch @panic(fd_path);
+
+            const deps = b.available_deps;
+            const zig_wayland_hash = for (deps) |dep| {
+                if (mem.eql(u8, dep.@"0", "zig-wayland")) {
+                    break dep.@"1";
+                }
+            } else null;
+            break :blk std.fmt.allocPrint(b.allocator, "{s}/p/{s}", .{ cache_root_path, zig_wayland_hash.? }) catch @panic("OOM");
+        };
+
         const exe = b.addExecutable(.{
             .name = "zig-wayland-scanner",
-            .root_source_file = .{ .cwd_relative = b.pathJoin(&.{ zig_wayland_dir, "src/scanner.zig" }) },
+            .root_source_file = .{ .cwd_relative = fs.path.join(b.allocator, &[_][]const u8{ zig_wayland_path, "src/scanner.zig" }) catch @panic("OOM") },
             .target = b.host,
         });
 
