@@ -5,6 +5,8 @@ const fs = std.fs;
 const mem = std.mem;
 const fmtId = std.zig.fmtId;
 
+pub const BuildScanner = @import("build_integration.zig").Scanner;
+
 const log = std.log.scoped(.@"zig-wayland");
 
 const xml = @import("xml.zig");
