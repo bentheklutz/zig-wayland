@@ -15,6 +15,7 @@ pub fn build(b: *Build) void {
         .root_source_file = b.path("src/scanner.zig"),
         .optimize = optimize,
     });
+    b.installArtifact(scanner_exe);
 
     const scanner_run = b.addRunArtifact(scanner_exe);
     const scanner = Scanner.create(b, scanner_run, .{});
