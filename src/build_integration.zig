@@ -13,7 +13,8 @@ pub const Scanner = struct {
     result: Build.LazyPath,
 
     /// Path to the system protocol directory, stored to avoid invoking pkg-config N times.
-    options: Options,
+    wayland_xml_path: []const u8,
+    wayland_protocols_path: []const u8,
 
     // TODO remove these when the workaround for zig issue #131 is no longer needed.
     compiles: std.ArrayListUnmanaged(*Build.Step.Compile) = .{},
@@ -38,11 +39,6 @@ pub const Scanner = struct {
             break :blk mem.trim(u8, pc_output, &std.ascii.whitespace);
         };
 
-        const resolved_options = Options{
-            .wayland_xml_path = wayland_xml_path,
-            .wayland_protocols_path = wayland_protocols_path,
-        };
-
         run_step.addArg("-o");
         const result = run_step.addOutputFileArg("wayland.zig");
 
@@ -53,7 +49,8 @@ pub const Scanner = struct {
 
         scanner.* = .{
             .result = result,
-            .options = resolved_options,
+            .wayland_xml_path = wayland_xml_path,
+            .wayland_protocols_path = wayland_protocols_path,
             .run = run_step,
         };
 
