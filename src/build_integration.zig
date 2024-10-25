@@ -61,7 +61,7 @@ pub const Scanner = struct {
     /// relative to the wayland-protocols installation. (e.g. "stable/xdg-shell/xdg-shell.xml")
     pub fn addSystemProtocol(scanner: *Scanner, relative_path: []const u8) void {
         const b = scanner.run.step.owner;
-        const full_path = b.pathJoin(&.{ scanner.options.wayland_protocols_path, relative_path });
+        const full_path = b.pathJoin(&.{ scanner.wayland_protocols_path, relative_path });
 
         scanner.run.addArg("-i");
         scanner.run.addFileArg(.{ .cwd_relative = full_path });
