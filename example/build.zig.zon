@@ -1,0 +1,16 @@
+.{
+    .name = "example",
+    .version = "0.0.0",
+    .minimum_zig_version = "0.14.0-dev",
+    .dependencies = .{
+        .@"zig-wayland" = .{
+            .url = "git+https://github.com/bentheklutz/zig-wayland#3cda0bdecd958e3787d1169bf1f55933ec39bc70",
+            .hash = "1220fe0b7241abfc2bc9402dff13928ac6fd4db06eb9cbea15f0b3af6c9377d42e5d",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+    },
+}
