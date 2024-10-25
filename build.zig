@@ -3,7 +3,7 @@ const Build = std.Build;
 const fs = std.fs;
 const mem = std.mem;
 
-const Scanner = @import("src/build_integration.zig").Scanner;
+pub const Scanner = @import("src/build_integration.zig").Scanner;
 
 pub fn build(b: *Build) void {
     const target = b.standardTargetOptions(.{});
