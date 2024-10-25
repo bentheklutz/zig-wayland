@@ -4,8 +4,8 @@
     .minimum_zig_version = "0.14.0-dev",
     .dependencies = .{
         .@"zig-wayland" = .{
-            .url = "git+https://github.com/bentheklutz/zig-wayland#3cda0bdecd958e3787d1169bf1f55933ec39bc70",
-            .hash = "1220fe0b7241abfc2bc9402dff13928ac6fd4db06eb9cbea15f0b3af6c9377d42e5d",
+            .url = "git+https://github.com/bentheklutz/zig-wayland#b3fedb6477db3b31a54b55a73fbe0dde0286e90f",
+            .hash = "1220c2d311354b35decd44b87ee9778a3f6ebfccad21dd8633a2997dc7c7386fa721",
         },
     },
     .paths = .{
